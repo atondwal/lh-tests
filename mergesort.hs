@@ -1,7 +1,8 @@
 {-@ measure sorted @-}
 sorted :: Ord a => [a] -> Bool
 sorted (x:y:ζ) = x>=y && sorted ζ
-sorted _ = True
+sorted [x] = True
+sorted [] = True
 
 {-@ mergesort :: [a] -> {v:[a] | sorted v = True} @-}
 mergesort :: Ord a => [a] -> [a]
