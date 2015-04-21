@@ -2,7 +2,7 @@
 
 {-@ mergesort :: (Ord a) => [a] -> IncrList a @-}
 mergesort :: Ord a => [a] -> [a]
-mergesort = (uncurry conquer) . divide
+mergesort l = uncurry conquer $ divide l
 
 {-@ conquer :: (Ord a) => IncrList a -> IncrList a -> IncrList a @-}
 conquer :: Ord a => [a] -> [a] -> [a]
@@ -11,7 +11,7 @@ conquer [x] [] = [x]
 conquer [] [y] = [y]
 conquer (x:xs) (y:ys) = if x>y then x:conquer xs (y:ys) else y:conquer (x:xs) ys
 
-{-@ divide :: (Ord a) => [a] -> IncrList a -> IncrList a @-}
+{-@ divide :: (Ord a) => [a] -> (IncrList a, IncrList a) @-}
 divide :: Ord a => [a] -> ([a],[a])
 divide l = (mergesort xs, mergesort ys)
   where (xs,ys) =  split l
