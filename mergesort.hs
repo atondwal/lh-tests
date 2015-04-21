@@ -1,3 +1,5 @@
+{-@ LIQUID "--no-termination" @-}
+
 {-@ type IncrList a = [a]<{\xi xj -> xi <= xj}> @-}
 
 {-@ mergesort :: (Ord a) => [a] -> IncrList a @-}
@@ -9,7 +11,7 @@ conquer :: Ord a => [a] -> [a] -> [a]
 conquer [] [] = []
 conquer [x] [] = [x]
 conquer [] [y] = [y]
-conquer (x:xs) (y:ys) = if x>y then x:conquer xs (y:ys) else y:conquer (x:xs) ys
+conquer (x:xs) (y:ys) = if x<y then x:conquer xs (y:ys) else y:conquer (x:xs) ys
 
 {-@ divide :: (Ord a) => [a] -> (IncrList a, IncrList a) @-}
 divide :: Ord a => [a] -> ([a],[a])
