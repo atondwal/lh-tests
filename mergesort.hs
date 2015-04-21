@@ -1,10 +1,6 @@
-{-@ measure sorted @-}
-sorted :: Ord a => [a] -> Bool
-sorted (x:y:ζ) = x>=y && sorted ζ
-sorted [x] = True
-sorted [] = True
+{-@ type IncrList a = [a]<{\xi xj -> xi <= xj}> @-}
 
-{-@ mergesort :: [a] -> {v:[a] | sorted v = True} @-}
+{-@ mergesort :: (Ord a) => [a] -> IncrList a @-}
 mergesort :: Ord a => [a] -> [a]
 mergesort = (uncurry merge) . split
 
