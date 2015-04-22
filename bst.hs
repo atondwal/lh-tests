@@ -7,7 +7,9 @@ data Node v = Leaf v | Node Balance (Node v) v (Node v)
 {-@ measure height @-}
 height :: Node a -> Integer
 height (Leaf _) = 1
-height (Node _ r _ l) = 1 + (max (height r) (height l))
+height (Node _ r _ l) = 1 + if ρ > λ then ρ else λ
+        where ρ = height r
+              λ = height l
 
 {-@ measure balanced @-}
 balanced :: Node a -> Bool
