@@ -14,9 +14,10 @@ height (Node _ r _ l) = 1 + if ρ > λ then ρ else λ
 {-@ measure balanced @-}
 balanced :: Node a -> Bool
 balanced (Leaf _) = True
-balanced (Node R r _ l) = balanced r && balanced l && height r == 1+height l
-balanced (Node L r _ l) = balanced r && balanced l && height l == 1+height r
-balanced (Node C r _ l) = balanced r && balanced l && height l == height r
+balanced (Node b r _ l) = balanced r && balanced l && height r == c + height l
+        where c = case b of R -> 1
+                            C -> 0
+                            L -> -1
 
 
 {-@ type BST a = Node <{\b v n -> (n<=v) <=> b==True}> a @-}
