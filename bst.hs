@@ -12,7 +12,7 @@ height (Node r _ l) = if ρ > λ then ρ else λ
 {-@ measure balanced @-}
 balanced :: Node a -> Bool
 balanced (Leaf _) = True
-balanced (Node r _ l) = balanced r && balanced l && (height r) - (height l) < 1 && (height r) - (height l) > -1
+balanced (Node r _ l) = balanced r && balanced l && (height r) - (height l) <= 1 && (height r) - (height l) >= -1
 
 {-@ testTreeEven :: {v : Node Integer | balanced v} @-}
 testTreeEven :: Node Integer
