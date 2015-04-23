@@ -1,5 +1,3 @@
--- data Balance = R | L | C
-
 {-@ data Node v <p :: Bool -> v -> v -> Prop> = Leaf v | Node (r :: Node <p> v<p True c>) (c :: v) (l :: Node <p> v<p False c>) @-}
 
 data Node v = Leaf v | Node (Node v) v (Node v)
@@ -7,9 +5,9 @@ data Node v = Leaf v | Node (Node v) v (Node v)
 {-@ measure height @-}
 height :: Node a -> Integer
 height (Leaf _) = 1
-height (Node r _ l) = 1 + if ρ > λ then ρ else λ
-        where ρ = height r
-              λ = height l
+height (Node r _ l) = if ρ > λ then ρ else λ
+        where ρ = 1 + height r
+              λ = 1 + height l
 
 {-@ measure balanced @-}
 balanced :: Node a -> Bool
