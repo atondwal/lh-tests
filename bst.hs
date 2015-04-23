@@ -1,4 +1,4 @@
-{-@ data Node v <p :: Bool -> v -> v -> Prop> = Leaf v | Node (r :: Node <p> v<p True c>) (c :: v) (l :: Node <p> v<p False c>) @-}
+{-@ data Node v = Leaf v | Node (r :: Node {a:v|a<c} ) (c :: v) (l :: Node {a:v|a>c} ) @-}
 
 data Node v = Leaf v | Node (Node v) v (Node v)
 
@@ -18,7 +18,6 @@ balanced (Node r _ l) = balanced r && balanced l && (height r) - (height l) <= 1
 testTreeEven :: Node Integer
 testTreeEven = Node (Leaf 1) 2 (Leaf 3)
 
-{-@ type BST a = Node <{\b v n -> (n<=v) <=> b==True}> a @-}
 {-@ testTreeLeft :: {v : Node Integer | balanced v} @-}
 testTreeLeft :: Node Integer
 testTreeLeft = Node (Node (Leaf 0) 1 (Leaf 3)) 2 (Leaf 3)
