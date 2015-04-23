@@ -24,8 +24,12 @@ testTreeLeft = Node 3 (Node 1 (Leaf 0) (Leaf 2)) (Leaf 4)
 
 {-@ testTreeRight :: {v : Node Integer | balanced v} @-}
 testTreeRight :: Node Integer
-testTreeRight = Node 0 (Leaf -1) (Node 1 (Leaf 0) (Leaf 3))
+testTreeRight = Node 0 (Leaf (-1)) (Node 2 (Leaf 1) (Leaf 3))
 
-{-@ testTreeBroke :: {v : Node Integer | balanced v} @-}
-testTreeBroke :: Node Integer
-testTreeBroke = Node 0 (Node -1 (Leaf -2) (Node 1 (Leaf 0) (Leaf 3))) (Node 3 (Leaf 0) (Leaf 3))
+{-@ testTreeUnbal :: {v : Node Integer | balanced v} @-}
+testTreeUnbal :: Node Integer
+testTreeUnbal = Node 0 (Node (-5) (Leaf (-8)) (Node (-2) (Leaf (-3)) (Leaf (-1)))) (Leaf 1)
+
+{-@ testTreeUnsearch :: {v : Node Integer | balanced v} @-}
+testTreeUnsearch :: Node Integer
+testTreeUnsearch = Node 0 (Leaf 1) (Leaf (-1))
