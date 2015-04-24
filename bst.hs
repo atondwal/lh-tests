@@ -1,35 +1,37 @@
-{-@ data Node v = Leaf v | Node (c :: v) (r :: Node {a:v|a<c} ) (l :: Node {a:v|a>c} ) @-}
+{-@ data Node v = Nil | Node (c :: v) (r :: Node {a:v|a<c} ) (l :: Node {a:v|a>c} ) @-}
 
-data Node v = Leaf v | Node v (Node v) (Node v)
+data Node v = Nil | Node v (Node v) (Node v)
 
 {-@ measure height @-}
 height :: Node a -> Integer
-height (Leaf _) = 1
+height Nil = 1
 height (Node _ r l) = if ρ > λ then ρ else λ
         where ρ = 1 + height r
               λ = 1 + height l
 
 {-@ measure balanced @-}
 balanced :: Node a -> Bool
-balanced (Leaf _) = True
+balanced Nil = True
 balanced (Node _ r l) = balanced r && balanced l && (height r) - (height l) <= 1 && (height r) - (height l) >= -1
 
-{-@ testTreeEven :: {v : Node Integer | balanced v} @-}
+{-@ type AVL a = { v : Node a | balanced v} @-}
+
+{-@ testTreeEven :: AVL Integer @-}
 testTreeEven :: Node Integer
-testTreeEven = Node 2 (Leaf 1) (Leaf 3)
+testTreeEven = Node 2 (Node 1 Nil Nil) (Node 3 Nil Nil)
 
-{-@ testTreeLeft :: {v : Node Integer | balanced v} @-}
+{-@ testTreeLeft :: AVL Integer @-}
 testTreeLeft :: Node Integer
-testTreeLeft = Node 3 (Node 1 (Leaf 0) (Leaf 2)) (Leaf 4)
+testTreeLeft = Node 3 (Node 1 (Node 0 Nil Nil) (Node 2 Nil Nil)) (Node 4 Nil Nil)
 
-{-@ testTreeRight :: {v : Node Integer | balanced v} @-}
+{-@ testTreeRight :: AVL Integer @-}
 testTreeRight :: Node Integer
-testTreeRight = Node 0 (Leaf (-1)) (Node 2 (Leaf 1) (Leaf 3))
+testTreeRight = Node 0 (Node (-1) Nil Nil) (Node 2 (Node 1 Nil Nil) (Node 3 Nil Nil))
 
-{-@ testTreeUnbal :: {v : Node Integer | balanced v} @-}
+{-@ testTreeUnbal :: AVL Integer @-}
 testTreeUnbal :: Node Integer
-testTreeUnbal = Node 0 (Node (-5) (Leaf (-8)) (Node (-2) (Leaf (-3)) (Leaf (-1)))) (Leaf 1)
+testTreeUnbal = Node 0 (Node (-5) (Node (-8) Nil Nil) (Node (-2) (Node (-3) Nil Nil) (Node (-1) Nil Nil))) (Node 1 Nil Nil)
 
-{-@ testTreeUnsearch :: {v : Node Integer | balanced v} @-}
+{-@ testTreeUnsearch :: AVL Integer @-}
 testTreeUnsearch :: Node Integer
-testTreeUnsearch = Node 0 (Leaf 1) (Leaf (-1))
+testTreeUnsearch = Node 0 (Node 1 Nil Nil) (Node (-1) Nil Nil)
